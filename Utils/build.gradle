@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'maven-publish'
 group = 'com.github.Utils'
 
 android {
@@ -22,26 +21,28 @@ android {
     }
 }
 
-task sourceJar(type: Jar) {
+// build a jar with source files
+task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
-    classifier "sources"
+    classifier = 'sources'
 }
 
-publishing {
-    publications {
-        bar(MavenPublication) {
-            groupId 'com.foo'
-            artifactId 'bar'
-            version '0.1'
-            artifact(sourceJar)
-            artifact("$buildDir/outputs/aar/bar-release.aar")
-        }
-    }
-    repositories {
-        maven {
-            url "$buildDir/repo"
-        }
-    }
+task javadoc(type: Javadoc) {
+    failOnError  false
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+
+// build a jar with javadoc
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
 }
 
 dependencies {
