@@ -8,19 +8,19 @@ Some utilities i often use.
 
 Add the [JitPack.io](http://jitpack.io) repository to the project `build.grade`:
 ```
-    allprojects {
-        repositories {
-            maven { url 'https://jitpack.io' }
-        }
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
     }
+}
 ```
 
 Then import the latest version in the `build.gradle` of the modules you need:
 
 ```
 dependencies {
-	        implementation 'com.github.Lamba92:utils:1.0.5'
-	}
+    implementation 'com.github.Lamba92:utils:1.0.5'
+}
 ```
 
 ## Authors
