@@ -37,6 +37,7 @@ object Utils {
      * Transforms DPs in pixels based on the current screen
      * @param r Andorid resources
      * @param dp The DPs as a [Float]
+     * @return the pixels as a [Float]
      */
     fun DpToPx(r: Resources, dp: Float): Float {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.displayMetrics)
@@ -59,6 +60,7 @@ object Utils {
     /**
      * Returns width and height of an image file as a [Point]
      * @param file The image file
+     * @return A [Point] containing width and height of [file]
      */
     fun getImageSizes(file: File): Point {
         val options = BitmapFactory.Options()
@@ -152,7 +154,7 @@ object Utils {
     /**
      * Generates a temporary file with a random name and given extension
      * @param extension a string with the extension
-     * @return the file reference
+     * @return a [File] reference
      */
     fun createTemporalFile(extension: String = "jpg"): File {
         return File.createTempFile(UUID.randomUUID().toString(), extension)
