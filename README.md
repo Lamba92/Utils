@@ -9,11 +9,10 @@ Some utilities i often use.
 Add the [JitPack.io](http://jitpack.io) repository to the project `build.grade`:
 ```
     allprojects {
-    		repositories {
-    			...
-    			maven { url 'https://jitpack.io' }
-    		}
-    	}
+        repositories {
+            maven { url 'https://jitpack.io' }
+        }
+    }
 ```
 
 Then import the latest version in the `build.gradle` of the modules you need:
