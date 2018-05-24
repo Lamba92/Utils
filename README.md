@@ -19,7 +19,7 @@ Then import the latest version in the `build.gradle` of the modules you need:
 
 ```
 dependencies {
-    implementation 'com.github.Lamba92:utils:1.0.5'
+    implementation 'com.github.Lamba92:utils:{latest_version}'
 }
 ```
 
