@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'org.jetbrains.dokka-android'
 group = 'com.github.Utils'
 
 android {
@@ -34,8 +35,13 @@ task javadoc(type: Javadoc) {
     classpath += configurations.compile
 }
 
+task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaAndroidTask) {
+    outputFormat = 'html'
+    outputDirectory = javadoc.destinationDir.path
+}
+
 // build a jar with javadoc
-task javadocJar(type: Jar, dependsOn: javadoc) {
+task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
     classifier = 'javadoc'
     from javadoc.destinationDir
 }

@@ -34,9 +34,9 @@ object Utils {
     }
 
     /**
-     * Transforms DPs inpixels based on the current screen
+     * Transforms DPs in pixels based on the current screen
      * @param r Andorid resources
-     * @param dp The DPs as a {@link Float Float}
+     * @param dp The DPs as a [Float]
      */
     fun DpToPx(r: Resources, dp: Float): Float {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.displayMetrics)
@@ -57,7 +57,7 @@ object Utils {
     }
 
     /**
-     * Returns width and height of an image file as a {@link Point Point}
+     * Returns width and height of an image file as a [Point]
      * @param file The image file
      */
     fun getImageSizes(file: File): Point {
@@ -72,7 +72,7 @@ object Utils {
      * @param file the input image file
      * @param width the desired output width in DPs
      * @param r Android resources
-     * @return a {@link Point Point} with the desired sizes
+     * @return a [Point] with the desired sizes
      */
     fun scaleSizesFixingWidth(file: File, width: Float, r: Resources) = scaleSizesFixingWidth(getImageSizes(file), width, r)
 
@@ -81,7 +81,7 @@ object Utils {
      * @param input the input sizes in pixels
      * @param width the desired output width in DPs
      * @param r Android resources
-     * @return a {@link Point Point} with the desired sizes
+     * @return a [Point] with the desired sizes
      */
     fun scaleSizesFixingWidth(input: Point, width: Float, r: Resources): Point{
         val x = (input.y*DpToPx(r, width)/input.x).toInt()
@@ -90,7 +90,7 @@ object Utils {
     }
 
     /**
-     * Returns a {@link File File} from a streammable {@link Uri Uri}
+     * Returns a [File] from a streammable [Uri]
      * @param uri the uri containing the stream
      * @param contentResolver the content resolver for uri
      * @return the file if it exists
