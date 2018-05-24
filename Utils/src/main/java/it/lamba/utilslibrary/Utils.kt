@@ -20,6 +20,12 @@ import java.util.*
 
 
 object Utils {
+    /**
+     * Allows to close the keyboard
+     *
+     * @param context Current context
+     * @param view the view you need to remove the focus from
+     */
     fun hideKeyboardFrom(context: Context, view: EditText) {
         val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
@@ -27,6 +33,11 @@ object Utils {
         (view as? AutoCompleteTextView)?.dismissDropDown()
     }
 
+    /**
+     * Transforms DPs inpixels based on the current screen
+     * @param r Andorid resources
+     * @param dp The DPs as a {@link Float Float}
+     */
     fun DpToPx(r: Resources, dp: Float): Float {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.displayMetrics)
     }
@@ -35,6 +46,8 @@ object Utils {
         Toast.makeText(context, "Qualcosa è andato storto ¯\\_(ツ)_/¯", Toast.LENGTH_SHORT).show()
         it.printStackTrace()
     }
+
+
     fun isNameValid(name: String): Boolean {
         return name.length > 2
     }
@@ -42,20 +55,46 @@ object Utils {
         //TODO: Replace this with your own logic
         return email.contains("@")
     }
+
+    /**
+     * Returns width and height of an image file as a {@link Point Point}
+     * @param file The image file
+     */
     fun getImageSizes(file: File): Point {
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
         BitmapFactory.decodeFile(file.absolutePath, options)
         return Point(options.outWidth, options.outWidth)
     }
-    fun scaleSizes(file: File, dp: Float, r: Resources) = scaleSizes(getImageSizes(file), dp, r)
 
-    fun scaleSizes(input: Point, dp: Float, r: Resources): Point{
-        val x = (input.y*DpToPx(r, dp)/input.x).toInt()
-        val y = DpToPx(r, dp).toInt()
+    /**
+     * Calculate the height and width in pixels given a fixed width in DPs keeping aspect ration intact.
+     * @param file the input image file
+     * @param width the desired output width in DPs
+     * @param r Android resources
+     * @return a {@link Point Point} with the desired sizes
+     */
+    fun scaleSizesFixingWidth(file: File, width: Float, r: Resources) = scaleSizesFixingWidth(getImageSizes(file), width, r)
+
+    /**
+     * Calculate the height and width in pixels given a fixed width in DPs keeping aspect ration intact.
+     * @param input the input sizes in pixels
+     * @param width the desired output width in DPs
+     * @param r Android resources
+     * @return a {@link Point Point} with the desired sizes
+     */
+    fun scaleSizesFixingWidth(input: Point, width: Float, r: Resources): Point{
+        val x = (input.y*DpToPx(r, width)/input.x).toInt()
+        val y = DpToPx(r, width).toInt()
         return Point(x, y)
     }
 
+    /**
+     * Returns a {@link File File} from a streammable {@link Uri Uri}
+     * @param uri the uri containing the stream
+     * @param contentResolver the content resolver for uri
+     * @return the file if it exists
+     */
     fun getImagePathFromInputStreamUri(uri: Uri, contentResolver: ContentResolver): File? {
         var inputStream: InputStream? = null
         var photoFile: File? = null
@@ -110,6 +149,11 @@ object Utils {
         return targetFile
     }
 
+    /**
+     * Generates a temporary file with a random name and given extension
+     * @param extension a string with the extension
+     * @return the file reference
+     */
     fun createTemporalFile(extension: String = "jpg"): File {
         return File.createTempFile(UUID.randomUUID().toString(), extension)
     }
@@ -128,10 +172,19 @@ object Utils {
 
 }
 
+/**
+ * Inflates a layout inside a view
+ * @param layoutRes layout id that need to be inflated
+ * @return the inflated view
+ */
 fun ViewGroup.inflate(layoutRes: Int): View {
     return LayoutInflater.from(context).inflate(layoutRes, this, false)
 }
 
+/**
+ * Allows to listen to scroll changes on a view
+ * @param onScroll the callback with the current coordinates
+ */
 fun View.addOnScrollChangedListener(onScroll: (X: Int, Y: Int) -> Unit){
     this.viewTreeObserver.addOnScrollChangedListener {
         onScroll(this.scrollX, this.scrollY)
